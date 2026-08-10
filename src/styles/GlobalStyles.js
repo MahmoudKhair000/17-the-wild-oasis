@@ -1,6 +1,6 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle, css } from "styled-components";
 
-const GlobalStyles = createGlobalStyle`
+const GlobalStyles = createGlobalStyle(css`
   :root {
   /* Indigo */
   --color-brand-50: #eef2ff;
@@ -54,7 +54,55 @@ const GlobalStyles = createGlobalStyle`
   /* For dark mode */
   --image-grayscale: 0;
   --image-opacity: 100%;
+
+  /* Max widths */
+  --cabin-max-width:120rem;
+  --cabin-table-max-width:80rem;
 }
+
+html::-webkit-scrollbar{
+  display: none;
+}
+
+
+
+*::-webkit-scrollbar{
+  /* the parent element */
+  display: block;
+  width: 10px;
+  height: 10px;
+  background-color: var(--color-grey-200);
+}
+*::-webkit-scrollbar-button{
+  /* width: 10px; */
+  height: 3px;
+}
+
+/* *::-webkit-scrollbar-corner{
+  background-color: var(--color-grey-400);
+} */
+
+*::-webkit-scrollbar-thumb{
+  background-color: var(--color-brand-200);
+  margin: 2px;
+  border-radius: 9999999px;
+  transition: background 0.5s ease-in-out !important;
+}
+*::-webkit-scrollbar-thumb:hover{
+  background-color: var(--color-brand-600);
+  /* background-color: #036aa1ab; */
+}
+*::-webkit-scrollbar-thumb:active{
+  background-color: var(--color-brand-500);
+  /* background-color: #0369a1; */
+}
+
+*::-webkit-scrollbar-track{ 
+  background-color: var(--color-grey-50);
+  border-radius: 9999999px;
+}
+*::-webkit-scrollbar-track-piece{}
+
 
 *,
 *::before,
@@ -188,6 +236,6 @@ FOR DARK MODE
 --image-opacity: 90%;
 */
 
-`;
+`);
 
 export default GlobalStyles;

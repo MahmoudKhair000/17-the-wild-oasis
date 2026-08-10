@@ -2,20 +2,26 @@
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import {
+	HiCalendarDays,
+	HiCog6Tooth,
+	HiHome,
+	HiHomeModern,
 	HiOutlineCalendarDays,
 	HiOutlineCog6Tooth,
 	HiOutlineHome,
 	HiOutlineHomeModern,
 	HiOutlineUser,
 	HiOutlineUsers,
+	HiUser,
+	HiUsers,
 } from 'react-icons/hi2';
+import { useLocation } from 'react-router-dom';
 
 const NavList = styled.ul`
 	display: flex;
 	flex-direction: column;
 	gap: 0.8rem;
 `;
-
 const StyledNavLink = styled(NavLink)`
 	&:link,
 	&:visited {
@@ -56,43 +62,50 @@ const StyledNavLink = styled(NavLink)`
 `;
 
 function MainNav() {
+	const route = useLocation().pathname;
+	// console.log(route);
+
 	return (
 		<>
 			<nav>
 				<NavList>
 					<li>
 						<StyledNavLink to="/dashboard">
-							<HiOutlineHome />
+							{route === '/dashboard' ? <HiHome /> : <HiOutlineHome />}
 							<span>Home</span>
 						</StyledNavLink>
 					</li>
 					<li>
 						<StyledNavLink to="/bookings">
-							<HiOutlineCalendarDays />
+							{route === '/bookings' ? (
+								<HiCalendarDays />
+							) : (
+								<HiOutlineCalendarDays />
+							)}
 							<span>Bookings</span>
 						</StyledNavLink>
 					</li>
 					<li>
 						<StyledNavLink to="/cabins">
-							<HiOutlineHomeModern />
+							{route === '/cabins' ? <HiHomeModern /> : <HiOutlineHomeModern />}
 							<span>Cabins</span>
 						</StyledNavLink>
 					</li>
 					<li>
 						<StyledNavLink to="/users">
-							<HiOutlineUsers />
+							{route === '/users' ? <HiUsers /> : <HiOutlineUsers />}
 							<span>Users</span>
 						</StyledNavLink>
 					</li>
 					<li>
 						<StyledNavLink to="/settings">
-							<HiOutlineCog6Tooth />
+							{route === '/settings' ? <HiCog6Tooth /> : <HiOutlineCog6Tooth />}
 							<span>Settings</span>
 						</StyledNavLink>
 					</li>
 					<li>
 						<StyledNavLink to="/account">
-							<HiOutlineUser />
+							{route === '/account' ? <HiUser /> : <HiOutlineUser />}
 							<span>Account</span>
 						</StyledNavLink>
 					</li>

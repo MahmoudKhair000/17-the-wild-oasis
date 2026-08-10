@@ -10,8 +10,8 @@ const StyledSidebar = styled.aside`
 	border-right: 1px solid var(--color-grey-100);
 
 	/* grid element styles */
-	/* takes from first to last row */
 	grid-row: 1/ -1;
+	/* takes from first to last row */
 
 	display: flex;
 	flex-direction: column;
