@@ -15,7 +15,7 @@ const StyledFormRow = styled.div`
 		padding-bottom: 0;
 	}
 	&:not(:last-child) {
-		border-bottom: 1px solid var(--color-grey-100);
+		border-bottom: 1px solid var(--color-grey-200);
 	}
 	&:has(button) {
 		display: flex;
@@ -23,7 +23,6 @@ const StyledFormRow = styled.div`
 		gap: 1.2rem;
 	}
 `;
-
 const Label = styled.label`
 	font-weight: 500;
 `;
@@ -41,7 +40,7 @@ const Error = styled.span`
 function FormRow({ label, error, children }) {
 	return (
 		<StyledFormRow>
-			{label && <Label htmlFor={children.props.id}>{label}</Label>}
+			{label && <Label htmlFor={children?.props?.id}>{label}</Label>}
 			{children}
 			{error && <Error>{error?.message}</Error>}
 		</StyledFormRow>
