@@ -10,6 +10,8 @@ import {
 import { useState } from 'react';
 import useDeleteCabin from './useDeleteCabin';
 import useCreateCabin from './useCreateCabin';
+import Modal from '../../ui/Modal';
+import ConfirmDelete from '../../ui/ConfirmDelete';
 
 const DividedDiv = styled.div`
 	&:not(:last-child) {
@@ -57,10 +59,14 @@ const Img = styled.img`
 
 	aspect-ratio: 3 / 2;
 	object-fit: cover;
-	object-position: center;
 	border-right: 1px solid var(--color-grey-100);
-	/* transform: scale(1.5) translateX(-7px); */
-	@media (max-width: 992px) {
+	/* 
+	transform:
+	 scale(1.5)
+	 translateX(-7px);
+ */
+	object-position: center;
+	@media (max-width: 1100px) {
 		height: 100%;
 	}
 `;
@@ -143,8 +149,6 @@ function CabinRow({ cabinData }) {
 		image, //
 	} = cabinData;
 
-	const [showForm, setShowForm] = useState(false);
-
 	const { isDeleting, deleteCabin } = useDeleteCabin();
 	const { isCreating, createCabin } = useCreateCabin();
 
@@ -190,29 +194,39 @@ function CabinRow({ cabinData }) {
 							<HiOutlineSquare2Stack />
 						</DuplicateBtn>
 
-						<EditBtn
-							// disabled={showForm}
-							onClick={() => {
-								setShowForm((prev) => !prev);
-							}}>
-							{!showForm ? <HiOutlinePencil /> : <HiOutlineXMark />}
-						</EditBtn>
+						<Modal>
+							<Modal.Open opens={'edit-cabin'}>
+								<EditBtn>
+									{/* // disabled={showForm}
+								// onClick={() => {
+								// 	setShowForm((prev) => !prev);
+								// }} */}
+									<HiOutlinePencil />
+								</EditBtn>
+							</Modal.Open>
+							<Modal.Window name={'edit-cabin'}>
+								<CreateCabinForm
+									type={'modal'}
+									cabinToEdit={cabinData}
+								/>
+							</Modal.Window>
 
-						<DeleteBtn
-							disabled={isWorking}
-							onClick={() => deleteCabin(cabinId)}>
-							<HiOutlineTrash />
-						</DeleteBtn>
+							<Modal.Open opens={'delete'}>
+								<DeleteBtn disabled={isWorking}>
+									<HiOutlineTrash />
+								</DeleteBtn>
+							</Modal.Open>
+							<Modal.Window name={'delete'}>
+								<ConfirmDelete
+									resourceName={`cabin: ${cabinData?.name}`}
+									disabled={isDeleting}
+									onConfirm={() => deleteCabin(cabinId)}
+								/>
+							</Modal.Window>
+						</Modal>
 					</BtnDiv>
 				</TableRow>
 			</DividedDiv>
-
-			{showForm && (
-				<CreateCabinForm
-					type={'modal'}
-					cabinToEdit={cabinData}
-				/>
-			)}
 		</>
 	);
 }

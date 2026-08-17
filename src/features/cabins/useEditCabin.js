@@ -12,7 +12,7 @@ function useEditCabin() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['cabins'] });
-      queryClient.setQueryData(['modals'], { closeModal: true });
+
       toast.success('Cabin Successfully Edited!');
     },
     onError: (err) => {

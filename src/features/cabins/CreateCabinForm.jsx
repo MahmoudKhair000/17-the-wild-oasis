@@ -1,6 +1,8 @@
 // Imports
 import { useForm } from 'react-hook-form';
 // 3rd-party lobrary imports
+import useCreateCabin from './useCreateCabin';
+import useEditCabin from './useEditCabin';
 import { formatCurrency } from '../../utils/helpers';
 // services & utilities imports
 import Input from '../../ui/Input';
@@ -9,11 +11,9 @@ import FormRow from '../../ui/FormRow';
 import Button from '../../ui/Button';
 import FileInput from '../../ui/FileInput';
 import Textarea from '../../ui/Textarea';
-import useCreateCabin from './useCreateCabin';
-import useEditCabin from './useEditCabin';
 // UI imports
 
-function CreateCabinForm({ cabinToEdit = {} }) {
+function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
 	const { id: editId, ...editValues } = cabinToEdit;
 	// if there's an id, it means it came from the server
 	const isEditSession = Boolean(editId);
@@ -49,6 +49,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
 					onSuccess: (data) => {
 						console.log(data);
 						reset();
+						onCloseModal?.();
 					},
 				},
 			);
@@ -59,6 +60,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
 					onSuccess: (data) => {
 						console.log(data);
 						reset();
+						onCloseModal?.();
 					},
 				},
 			);
@@ -70,7 +72,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
 
 	return (
 		<Form
-			type={isEditSession && 'modal'}
+			type={onCloseModal && 'modal'}
 			onSubmit={handleSubmit(onSubmit /*, onError*/)}>
 			{/* Text inputs */}
 			<>
@@ -176,7 +178,8 @@ function CreateCabinForm({ cabinToEdit = {} }) {
 					variation="secondary"
 					disabled={isWorking}
 					//type:"reset" is a regular html attribute
-					type="reset">
+					type="reset"
+					onClick={() => onCloseModal?.()}>
 					Cancel
 				</Button>
 				<Button

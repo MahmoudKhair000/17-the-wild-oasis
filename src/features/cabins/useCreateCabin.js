@@ -11,7 +11,7 @@ function useCreateCabin() {
     mutationFn: createEditCabin,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['cabins'] });
-      queryClient.setQueryData(['modals'], { closeModal: true });
+
       toast.success('Cabin Successfully Created!');
     },
     onError: (err) => {

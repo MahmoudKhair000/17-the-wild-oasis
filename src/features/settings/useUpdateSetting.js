@@ -14,7 +14,7 @@ function useUpdateSetting() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['cabins'] });
       queryClient.setQueryData(['modals'], { closeModal: true });
-      toast.success('Settings Successfully Edited!');
+      toast.success('Settings Successfully Updated!');
     },
     onError: (err) => {
       toast.error(err.message);
