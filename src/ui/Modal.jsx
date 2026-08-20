@@ -2,7 +2,7 @@ import { useState, createContext, useContext, cloneElement } from 'react';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 import { HiXMark } from 'react-icons/hi2';
-import { useClickOutside } from '../hooks/useClickOutside';
+import { useClickOutside as modalClickOutside } from '../hooks/useClickOutside';
 
 const StyledModal = styled.div`
 	position: fixed;
@@ -65,18 +65,18 @@ function Modal({ children }) {
 	);
 }
 
-function Open({ children, opens: opensWindowName }) {
+function Open({ children, opens: windowName }) {
 	const { open } = useContext(modalContext);
 
 	// returning a clone of the element
-	return cloneElement(children, { onClick: () => open(opensWindowName) });
+	return cloneElement(children, { onClick: () => open(windowName) });
 	// cloneElement(element, props, ...children);
 }
 
-function Window({ children: cabinForm, name }) {
+function Window({ children: windowElement, name }) {
 	const { openName, close } = useContext(modalContext);
 
-	const ref = useClickOutside(close);
+	const ref = modalClickOutside(close);
 
 	if (openName !== name) return null;
 	return createPortal(
@@ -87,7 +87,7 @@ function Window({ children: cabinForm, name }) {
 				</Button>
 				{/* children is the createCabinForm */}
 				{/* we'll be rendering a clone of it */}
-				{cloneElement(cabinForm, { onCloseModal: close })}
+				{cloneElement(windowElement, { onCloseModal: close })}
 			</StyledModal>
 		</Overlay>,
 		document.body,

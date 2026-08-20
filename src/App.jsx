@@ -22,7 +22,7 @@ import { Toaster } from 'react-hot-toast';
 
 // creating a query client to provide later
 const queryClient = new QueryClient({
-	defaultOptions: { queries: { staleTime: 0, cacheTime: 5000 } },
+	defaultOptions: { queries: { staleTime: 0 } },
 });
 
 function App() {

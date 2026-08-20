@@ -15,7 +15,8 @@ function UpdateSettingsForm() {
 		// handleSubmit,
 		// reset,
 		// formState: { errors },
-	} = useForm({ defaultValues: settings });
+	} = useForm();
+	// } = useForm({ defaultValues: settings });
 
 	const { isUpdating, updateSetting } = useUpdateSetting();
 
@@ -27,7 +28,7 @@ function UpdateSettingsForm() {
 	}
 
 	// const isWorking = isUpdating || isReading;
-	if (isReading) return <Spinner />;
+	if (isReading || !settings) return <Spinner />;
 
 	return (
 		<Form>
@@ -38,6 +39,7 @@ function UpdateSettingsForm() {
 					{...register('minBookingLength', {
 						// validate: (value) => {},
 					})}
+					defaultValue={settings.minBookingLength}
 					onBlur={(e) => {
 						handleUpdate(e);
 					}}
@@ -52,6 +54,7 @@ function UpdateSettingsForm() {
 					{...register('maxBookingLength', {
 						// validate: (value) => {},
 					})}
+					defaultValue={settings.maxBookingLength}
 					onBlur={(e) => {
 						handleUpdate(e);
 					}}
@@ -66,6 +69,7 @@ function UpdateSettingsForm() {
 					{...register('maxGuestsPerBooking', {
 						// validate: (value) => {},
 					})}
+					defaultValue={settings.maxGuestsPerBooking}
 					onBlur={(e) => {
 						handleUpdate(e);
 					}}
@@ -80,6 +84,7 @@ function UpdateSettingsForm() {
 					{...register('breakfastPrice', {
 						// validate: (value) => {},
 					})}
+					defaultValue={settings.breakfastPrice}
 					onBlur={(e) => {
 						handleUpdate(e);
 					}}

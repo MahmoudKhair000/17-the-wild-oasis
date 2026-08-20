@@ -13,7 +13,6 @@ import useCreateCabin from './useCreateCabin';
 import Modal from '../../ui/Modal';
 import Table from '../../ui/Table';
 import ConfirmDelete from '../../ui/ConfirmDelete';
-import Menus from '../../ui/Menus';
 
 const DividedDiv = styled.div`
 	&:not(:last-child) {
@@ -101,54 +100,50 @@ const Discount = styled.div`
 	color: var(--color-green-700);
 `;
 
-// const BtnDiv = styled.div`
-// 	padding: 5px;
+const BtnDiv = styled.div`
+	padding: 5px;
 
-// 	display: flex;
-// 	flex-direction: column;
-// 	gap: 5px;
-// 	justify-content: space-evenly;
-// 	align-items: center;
-// 	> * {
-// 		width: 100%;
-// 	}
-// `;
-// const DeleteBtn = styled(Menus.Button)`
-// 	> button {
-// 		padding: 3px;
-// 		font-size: 14px;
-// 		height: fit-content;
-// 		/* absurd 999999px is for pill shape */
-// 		border-radius: 99999999px;
-// 		border: 1px solid var(--color-red-700);
-// 		color: var(--color-red-700);
-// 		background-color: var(--color-red-100);
-// 	}
-// `;
-// const DuplicateBtn = styled(Menus.Button)`
-// 	> button {
-// 		padding: 3px;
-// 		font-size: 14px;
-// 		height: fit-content;
-// 		/* absurd 999999px is for the pill shape */
-// 		border-radius: 99999999px;
-// 		border: 1px solid var(--color-green-700);
-// 		color: var(--color-green-700);
-// 		background-color: var(--color-green-100);
-// 	}
-// `;
-// const EditBtn = styled(Menus.Button)`
-// 	> button {
-// 		padding: 3px;
-// 		font-size: 14px;
-// 		height: fit-content;
-// 		/* absurd 999999px is for the pill shape */
-// 		border-radius: 99999999px;
-// 		border: 1px solid var(--color-indigo-700);
-// 		color: var(--color-indigo-700);
-// 		background-color: var(--color-brand-50);
-// 	}
-// `;
+	display: flex;
+	flex-direction: column;
+	gap: 0px;
+	justify-content: space-evenly;
+	align-items: center;
+	> button {
+		padding: 3px;
+		font-size: 14px;
+		height: fit-content;
+	}
+
+	> :first-child {
+		border-start-start-radius: var(--border-radius-sm);
+		border-start-end-radius: var(--border-radius-sm);
+	}
+	> :last-child {
+		border-end-start-radius: var(--border-radius-sm);
+		border-end-end-radius: var(--border-radius-sm);
+	}
+`;
+const DeleteBtn = styled.button`
+	/* absurd 999999px is for pill shape */
+	/* border-radius: 3px; */
+	border: 1px solid var(--color-red-700);
+	color: var(--color-red-700);
+	background-color: var(--color-red-100);
+`;
+const DuplicateBtn = styled.button`
+	/* absurd 999999px is for the pill shape */
+	/* border-radius: 3px; */
+	border: 1px solid var(--color-green-700);
+	color: var(--color-green-700);
+	background-color: var(--color-green-100);
+`;
+const EditBtn = styled.button`
+	/* absurd 999999px is for the pill shape */
+	/* border-radius: 0; */
+	border: 1px solid var(--color-indigo-700);
+	color: var(--color-indigo-700);
+	background-color: var(--color-brand-50);
+`;
 
 function CabinRow({ cabinData }) {
 	const {
@@ -198,49 +193,31 @@ function CabinRow({ cabinData }) {
 						{discount ? formatCurrency(discount) : <span>&mdash;</span>}
 					</Discount>
 
-					<Modal>
-						<Menus.Menu>
-							<Menus.Toggle id={cabinId} />
-							<Menus.List id={cabinId}>
-								{/* Duplicating */}
-								<Menus.Button
-									icon={<HiOutlineSquare2Stack />}
-									onClick={() => {
-										handleDuplicate();
-									}}>
-									Duplicate
-								</Menus.Button>
-								{/* Modal editing & deleting */}
-								{/* Editing modal */}
-								<Modal.Open opens={'edit'}>
-									<Menus.Button
-										icon={<HiOutlinePencil />}
-										disabled={isWorking}>
-										Edit
-									</Menus.Button>
-								</Modal.Open>
-
-								{/* deleting modal */}
-								<Modal.Open opens={'delete'}>
-									<Menus.Button
-										icon={<HiOutlineTrash />}
-										disabled={isWorking}>
-										Delete
-									</Menus.Button>
-								</Modal.Open>
-							</Menus.List>
-							{/* 
-								Modal windows are placed outside the Menus.List to prevent clicks inside 
-								the modal from triggering the clickOutside event, which would cause the 
-								menu dropdown to close unintentionally. This separation ensures smooth UX 
-								when interacting with the edit and delete forms.
-							*/}
-							<Modal.Window name={'edit'}>
+					<BtnDiv>
+						<DuplicateBtn
+							onClick={() => {
+								handleDuplicate();
+							}}>
+							<HiOutlineSquare2Stack />
+						</DuplicateBtn>
+						<Modal>
+							<Modal.Open opens={'edit-cabin'}>
+								<EditBtn disabled={isWorking}>
+									<HiOutlinePencil />
+								</EditBtn>
+							</Modal.Open>
+							<Modal.Window name={'edit-cabin'}>
 								<CreateCabinForm
 									type={'modal'}
 									cabinToEdit={cabinData}
 								/>
 							</Modal.Window>
+
+							<Modal.Open opens={'delete'}>
+								<DeleteBtn disabled={isWorking}>
+									<HiOutlineTrash />
+								</DeleteBtn>
+							</Modal.Open>
 							<Modal.Window name={'delete'}>
 								<ConfirmDelete
 									resourceName={`cabin: ${cabinData?.name}`}
@@ -248,8 +225,8 @@ function CabinRow({ cabinData }) {
 									onConfirm={() => deleteCabin(cabinId)}
 								/>
 							</Modal.Window>
-						</Menus.Menu>
-					</Modal>
+						</Modal>
+					</BtnDiv>
 				</Table.Row>
 			</DividedDiv>
 		</>
