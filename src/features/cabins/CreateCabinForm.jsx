@@ -47,7 +47,7 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
 				{ cabin: { ...formData, image }, id: editId },
 				{
 					onSuccess: (data) => {
-						console.log(data);
+						// console.log(data);
 						reset();
 						onCloseModal?.();
 					},
@@ -58,7 +58,7 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
 				{ ...formData, image },
 				{
 					onSuccess: (data) => {
-						console.log(data);
+						// console.log(data);
 						reset();
 						onCloseModal?.();
 					},
@@ -73,12 +73,14 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
 	return (
 		<Form
 			type={onCloseModal && 'modal'}
-			onSubmit={handleSubmit(onSubmit /*, onError*/)}>
+			onSubmit={handleSubmit(onSubmit /*, onError*/)}
+		>
 			{/* Text inputs */}
 			<>
 				<FormRow
 					label={'Cabin Name'}
-					error={errors?.name}>
+					error={errors?.name}
+				>
 					<Input
 						type="text"
 						disabled={isWorking}
@@ -91,7 +93,8 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
 
 				<FormRow
 					label={'Max Capacity'}
-					error={errors?.maxCapacity}>
+					error={errors?.maxCapacity}
+				>
 					<Input
 						type="number"
 						id="maxCapacity"
@@ -108,7 +111,8 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
 
 				<FormRow
 					label={'Regular Price'}
-					error={errors?.regularPrice}>
+					error={errors?.regularPrice}
+				>
 					<Input
 						type="number"
 						id="regularPrice"
@@ -125,29 +129,30 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
 
 				<FormRow
 					label="Discount"
-					error={errors?.discount}>
+					error={errors?.discount}
+				>
 					<Input
 						type="number"
 						id="discount"
 						disabled={isWorking}
-						defaultValue={20}
+						defaultValue={0}
 						{...register('discount', {
 							required: 'This field is required',
 							min: {
 								value: 0,
 								message: `Discount should be at least ${formatCurrency(0)}`,
 							},
-							validate: (value) => {
-								Number(value) < Number(getValues().regularPrice) ||
-									'discount should be less than the regular price';
-							},
+							validate: (value) =>
+								Number(value) < Number(getValues().regularPrice)
+								|| 'discount should be less than the regular price',
 						})}
 					/>
 				</FormRow>
 
 				<FormRow
 					label={'Description'}
-					error={errors?.description}>
+					error={errors?.description}
+				>
 					<Textarea
 						type="number"
 						id="description"
@@ -162,7 +167,8 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
 			{/* File input */}
 			<FormRow
 				label={'Cabin photo'}
-				error={errors?.image}>
+				error={errors?.image}
+			>
 				<FileInput
 					id="image"
 					accept="image/*"
@@ -179,13 +185,15 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
 					disabled={isWorking}
 					//type:"reset" is a regular html attribute
 					type="reset"
-					onClick={() => onCloseModal?.()}>
+					onClick={() => onCloseModal?.()}
+				>
 					Cancel
 				</Button>
 				<Button
 					disabled={isWorking}
 					//type:"submit" is the default
-					type="submit">
+					type="submit"
+				>
 					{isEditSession ? 'Edit cabin' : 'Add cabin'}
 				</Button>
 			</FormRow>

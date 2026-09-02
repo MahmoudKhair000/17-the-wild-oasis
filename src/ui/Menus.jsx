@@ -76,7 +76,8 @@ function Menus({ children }) {
 	return (
 		<>
 			<MenusContext.Provider
-				value={{ openId, open, close, position, setPosition }}>
+				value={{ openId, open, close, position, setPosition }}
+			>
 				{children}
 			</MenusContext.Provider>
 		</>
@@ -84,6 +85,7 @@ function Menus({ children }) {
 }
 
 // 3. Create Children components
+// Menu: parent ui real dom element.
 function Menu({ children }) {
 	// const { close } = useContext(MenusContext);
 	// // applying clickOutside event
@@ -95,13 +97,14 @@ function Menu({ children }) {
 		</>
 	);
 }
+// Toggle: button to open/close the menu, child of Menu.
 function Toggle({ id }) {
 	const { openId, open, close, setPosition } = useContext(MenusContext);
 
 	function handleClick(e) {
 		e.stopPropagation();
+		// stopping propagation to avoid triggering the clickOutside event when clicking on the toggle button, and we will handle the toggle button click event to open/close the menu at the toggle itself
 		const rect = e.target.closest('button').getBoundingClientRect();
-		// console.log(rect);
 
 		if (openId === '' || openId !== id) {
 			setPosition({
@@ -112,6 +115,8 @@ function Toggle({ id }) {
 		} else {
 			close();
 		}
+
+		// console.log('clicked toggle button');
 	}
 
 	return (
@@ -120,22 +125,28 @@ function Toggle({ id }) {
 		</StyledToggle>
 	);
 }
+// List: menu list, child of Menu in react
+// , and it will be rendered in a portal to the body element, so it will be rendered outside the Menu component, clicking outside the menu list will trigger the clickOutside event and close the menu list, but clicking on the toggle button will not trigger the clickOutside event because we are stopping the propagation of the click event in the toggle button click handler.
 function List({ id, children }) {
 	const { openId, close, position } = useContext(MenusContext);
 	// applying clickOutside event
-	const ref = menusClickOutside(close, true);
+	// disabling listening in capturing phase to avoid closing the menu when clicking on the toggle button
+	const ref = menusClickOutside(close, false);
 
 	if (openId !== id) return null;
 
 	return createPortal(
 		<StyledList
 			ref={ref}
-			position={position}>
+			position={position}
+			//
+		>
 			{children}
 		</StyledList>,
 		document.body,
 	);
 }
+// Button: menu item button
 function Button({ children, icon, onClick }) {
 	const { close } = useContext(MenusContext);
 

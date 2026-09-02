@@ -9,6 +9,10 @@ const StyledTable = styled.div`
 	background-color: var(--color-grey-0);
 	border-radius: 7px;
 	overflow: hidden;
+	max-width: var(--cabin-table-max-width);
+	margin: 0 auto;
+	/* maxwidth: 'var(--cabin-table-max-width)';
+	margin: '0 auto'; */
 `;
 
 const CommonRow = styled.div`
@@ -29,7 +33,7 @@ const CommonRow = styled.div`
 `;
 
 const StyledHeader = styled(CommonRow)`
-	padding: 1.6rem 0;
+	padding: 0.8rem 0;
 	/* padding: 1.6rem 2.4rem; */
 
 	background-color: var(--color-grey-50);
@@ -94,9 +98,10 @@ function Header({ children }) {
 }
 
 function Body({ data, render }) {
-	if (!data.length) return <Empty>No data to show at the moment</Empty>;
+	if (!data.length)
+		return <Empty resource="">No data to show at the moment</Empty>;
 
-	return data.map(render);
+	return <StyledBody>{data.map(render)}</StyledBody>;
 }
 
 function Row({ children }) {

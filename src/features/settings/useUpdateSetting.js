@@ -8,12 +8,11 @@ function useUpdateSetting() {
 
   const {
     isLoading: isUpdating,
-    mutate: updateSetting
+    mutate: updateSetting,
   } = useMutation({
     mutationFn: updateSettingApi,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['cabins'] });
-      queryClient.setQueryData(['modals'], { closeModal: true });
       toast.success('Settings Successfully Updated!');
     },
     onError: (err) => {

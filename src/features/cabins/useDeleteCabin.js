@@ -15,7 +15,7 @@ export default function useDeleteCabin() {
       });
     },
     onError: (err) => {
-      console.log(err);
+      // console.log(err);
       toast.error(err.message);
     },
   });

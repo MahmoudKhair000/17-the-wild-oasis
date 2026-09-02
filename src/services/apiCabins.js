@@ -24,7 +24,7 @@ export async function getCabins() {
 }
 
 export async function createEditCabin(newCabin, id) {
-  console.log(id, newCabin)
+  // console.log(id, newCabin)
   const imageName = `${Math.random()}-${newCabin?.image?.name}`.replaceAll('/', '');
   // avoid creating new folders
 

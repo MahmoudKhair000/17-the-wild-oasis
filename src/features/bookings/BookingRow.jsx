@@ -8,6 +8,18 @@ import Table from '../../ui/Table';
 
 import { formatCurrency } from '../../utils/helpers';
 import { formatDistanceFromNow } from '../../utils/helpers';
+import Menus from '../../ui/Menus';
+import Modal from '../../ui/Modal';
+import {
+	HiArrowDownOnSquare,
+	HiArrowUpOnSquare,
+	HiEye,
+	HiTrash,
+} from 'react-icons/hi2';
+import { useNavigate } from 'react-router-dom';
+import { useCheckout } from '../check-in-out/useCheckout';
+import useDeleteBooking from './useDeleteBooking';
+import ConfirmDelete from '../../ui/ConfirmDelete';
 
 const Cabin = styled.div`
 	font-size: 1.6rem;
@@ -50,37 +62,103 @@ function BookingRow({
 		cabins: { name: cabinName },
 	},
 }) {
+	const navigate = useNavigate();
+	const { checkout, isCheckingout } = useCheckout();
+	const { deleteBookingMutate: deleteBooking, isDeleting } = useDeleteBooking();
+
 	const statusToTagName = {
 		unconfirmed: 'blue',
 		'checked-in': 'green',
 		'checked-out': 'silver',
 	};
 
+	if (isCheckingout) return null;
 	return (
 		<Table.Row>
-			<Cabin>{cabinName}</Cabin>
+			<>
+				<Cabin>{cabinName}</Cabin>
 
-			<Stacked>
-				<span>{guestName}</span>
-				<span>{email}</span>
-			</Stacked>
+				<Stacked>
+					<span>{guestName}</span>
+					<span>{email}</span>
+				</Stacked>
 
-			<Stacked>
-				<span>
-					{isToday(new Date(startDate))
-						? 'Today'
-						: formatDistanceFromNow(startDate)}{' '}
-					&rarr; {numNights} night stay
-				</span>
-				<span>
-					{format(new Date(startDate), 'MMM dd yyyy')} &mdash;{' '}
-					{format(new Date(endDate), 'MMM dd yyyy')}
-				</span>
-			</Stacked>
+				<Stacked>
+					<span>
+						{isToday(new Date(startDate))
+							? 'Today'
+							: formatDistanceFromNow(startDate)}{' '}
+						&rarr; {numNights} night stay
+					</span>
+					<span>
+						{format(new Date(startDate), 'MMM dd yyyy')} &mdash;{' '}
+						{format(new Date(endDate), 'MMM dd yyyy')}
+					</span>
+				</Stacked>
 
-			<Tag type={statusToTagName[status]}>{status.replace('-', ' ')}</Tag>
+				<div>
+					<Tag type={statusToTagName[status]}>{status.replace('-', ' ')}</Tag>
+				</div>
 
-			<Amount>{formatCurrency(totalPrice)}</Amount>
+				<Amount>{formatCurrency(totalPrice)}</Amount>
+			</>
+			<>
+				<Menus.Menu>
+					<Modal>
+						<Menus.Toggle id={bookingId} />
+						<Menus.List id={bookingId}>
+							<Menus.Button
+								icon={<HiEye />}
+								onClick={() => navigate(`/booking/${bookingId}`)}>
+								See details
+							</Menus.Button>
+							{status === 'unconfirmed' && (
+								<Menus.Button
+									icon={<HiArrowDownOnSquare />}
+									onClick={() => navigate(`/checkin/${bookingId}`)}>
+									Check in
+								</Menus.Button>
+							)}
+							{status === 'checked-in' && (
+								<Menus.Button
+									icon={<HiArrowUpOnSquare />}
+									onClick={() => checkout(bookingId)}
+									disabled={isCheckingout}>
+									Check out
+								</Menus.Button>
+							)}
+							<Modal.Open opens="delete">
+								<Menus.Button
+									icon={<HiTrash />}
+									// onClick={() => deleteBooking(bookingId)}
+									disabled={isDeleting}>
+									Delete Booking
+								</Menus.Button>
+							</Modal.Open>
+						</Menus.List>
+						{/* 
+		Avoiding Event Collisions 
+		Modal windows are placed outside the Menus.List to prevent clicks inside 
+		the modal from triggering the clickOutside event, which would cause the 
+		menu dropdown to close unintentionally. This separation ensures smooth UX 
+		when interacting with the edit and delete forms.
+					*/}
+						<Modal.Window name="delete">
+							<ConfirmDelete
+								resourceName={`Booking #${bookingId}`}
+								onConfirm={() =>
+									deleteBooking(bookingId, {
+										onSettled: () => {
+											navigate('/bookings');
+										},
+									})
+								}
+								disabled={isDeleting}
+							/>
+						</Modal.Window>
+					</Modal>
+				</Menus.Menu>
+			</>
 		</Table.Row>
 	);
 }

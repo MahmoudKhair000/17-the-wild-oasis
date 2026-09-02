@@ -57,9 +57,13 @@ const Button = styled.button`
 	box-shadow: var(--shadow-md);
 	border: none;
 	cursor: pointer;
+	outline: none;
+	&:focus {
+		outline: none;
+	}
 
 	&:disabled {
-		filter: opacity(70%) grayscale(90%);
+		filter: opacity(70%) grayscale(70%);
 		cursor: not-allowed;
 	}
 
