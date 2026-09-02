@@ -11,7 +11,7 @@ import Tag from '../../ui/Tag';
 import Modal from '../../ui/Modal';
 import ButtonText from '../../ui/ButtonText';
 import Spinner from '../../ui/Spinner';
-import CheckBox from '../../ui/CheckBox';
+import CheckBox from '../../ui/Checkbox';
 
 import BookingDataBox from '../bookings/BookingDataBox';
 import { useMoveBack } from '../../hooks/useMoveBack';
@@ -63,10 +63,10 @@ function CheckinBooking() {
 	}, [booking, navigate, bookingId]);
 
 	if (
-		isCheckingIn ||
-		isLoading ||
-		isLoadingSettings ||
-		Number(bookingId) !== booking?.id
+		isCheckingIn
+		|| isLoading
+		|| isLoadingSettings
+		|| Number(bookingId) !== booking?.id
 	)
 		return <Spinner />;
 
@@ -153,7 +153,8 @@ function CheckinBooking() {
 						<Modal.Open opens="delete">
 							<Button
 								variation="danger"
-								disabled={isDeleting}>
+								disabled={isDeleting}
+							>
 								Delete Booking
 							</Button>
 						</Modal.Open>
@@ -174,12 +175,14 @@ function CheckinBooking() {
 
 					<Button
 						onClick={handleCheckin}
-						disabled={!confirmPaid || isCheckingIn}>
+						disabled={!confirmPaid || isCheckingIn}
+					>
 						Check in booking #{id}
 					</Button>
 					<Button
 						variation="secondary"
-						onClick={moveBack}>
+						onClick={moveBack}
+					>
 						Back
 					</Button>
 				</ButtonGroup>
