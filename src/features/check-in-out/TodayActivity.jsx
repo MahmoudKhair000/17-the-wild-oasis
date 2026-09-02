@@ -6,7 +6,7 @@ import Heading from '../../ui/Heading';
 import Row from '../../ui/Row';
 import { useTodayActivity } from './useTodayActivity';
 import Spinner from '../../ui/Spinner';
-import Empty from '../../ui/Empty';
+// import Empty from '../../ui/Empty';
 
 const StyledToday = styled.div`
 	/* Box */
