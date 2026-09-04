@@ -1,3 +1,5 @@
+// react imports
+import { lazy, Suspense } from 'react';
 // Tanstack/reactQuery imports
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 // React hot toaster imports
@@ -8,10 +10,8 @@ import { Route, Routes, BrowserRouter, Navigate } from 'react-router-dom';
 import { DarkModeProvider } from './contexts/DarkModeContext';
 import GlobalStyles from './styles/GlobalStyles';
 
-import AppLayout from './ui/AppLayout';
 import ProtectedRoute from './ui/ProtectedRoute';
-import { lazy } from 'react';
-import { Suspense } from 'react';
+import AppLayout from './ui/AppLayout';
 import Spinner from './ui/Spinner';
 
 // import Dashboard from './pages/Dashboard';
