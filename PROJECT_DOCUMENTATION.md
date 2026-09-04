@@ -558,7 +558,7 @@ src/
 |-- services/       Supabase data-access functions
 |-- styles/         Global CSS and design tokens
 |-- ui/             Reusable visual components
-`-- utils/          Constants and helper functions
+|-- utils/          Constants and helper functions
 ```
 
 Feature folders include:
@@ -855,9 +855,19 @@ resolved before considering lint fully clean.
 
 ## 20. Suggested Next Learning Steps
 
+This project is intentionally easy to clone and deploy. It does not require a
+`.env` file: the Supabase URL and publishable client key are frontend
+configuration and can remain in the repository for this learning demo. The
+important security boundary is Supabase Row Level Security: never place a
+`service_role` key, database password, or any private secret in frontend code or
+GitHub, and configure RLS policies before sharing a deployed project.
+
+The repository also ignores `.env` and `.env.*` files as a second line of
+defense. This protects future local experiments without making environment
+variables a requirement for learners deploying the project to Vercel.
+
 After completing this project, useful next improvements would be:
 
-- Move Supabase credentials to environment variables.
 - Add automated tests for service functions and custom hooks.
 - Add end-to-end tests for login, booking actions, and cabin management.
 - Add TypeScript types for database records and form data.

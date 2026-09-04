@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
 import styled from 'styled-components';
 import { format, isToday } from 'date-fns';
 
