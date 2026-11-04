@@ -1,0 +1,17 @@
+[33m2cfbec2[m[33m ([m[1;36mHEAD[m[33m)[m fix: Uncomment return statement in getCabins function for proper functionality
+[33mcb79ddd[m fix: Comment out Uploader import in Sidebar component
+[33m620576e[m feat: Add Netlify redirects configuration and comment out Uploader component in Sidebar
+[33m11e5c09[m Add web app manifest for improved PWA support
+[33m097646c[m fix: Clean up unused variables and improve component structure in BookingRow, CheckoutButton, and MainNav chore: Update .gitignore to include .env files and enhance project documentation
+[33m0c5e4ec[m feat: Add project documentation and enhance README with project overview and technology stack
+[33mfbd7ac1[m fix: Correct import name for Checkbox component and improve code formatting
+[33m74b7020[m feat: Implement lazy loading for routes and enhance sidebar functionality
+[33m3ae2d87[m - Removing unnecessary console logs and comments from the codebase to improve readability and maintainability. - Removing unused imports and variables to clean up the code and reduce clutter.
+[33mad00778[m feat: Implement dark mode context and toggle functionality
+[33m65587bc[m feat: refactor cabin management components and integrate Menus for better UI interaction
+[33m3c4067d[m feat: implement modal for cabin creation and deletion, refactor related components
+[33m4b76876[m Refactor cabin management features and settings
+[33mb925aff[m feat: integrate react-query for data fetching and state management
+[33m5a87d93[m feat: add Header and Sidebar components with styled-components
+[33mc02f47a[m Add UI components and styles for the application Configured routes and pages
+[33md4f6ce9[m first init commi
